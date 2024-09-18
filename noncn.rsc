@@ -9812,12 +9812,7 @@
 /ip/route/add distance=10 dst-address=154.192.0.0/14 gateway=%ether1 routing-table=noncn
 /ip/route/add distance=10 dst-address=154.198.0.0/15 gateway=%ether1 routing-table=noncn
 /ip/route/add distance=10 dst-address=154.197.128.0/17 gateway=%ether1 routing-table=noncn
-/ip/route/add distance=10 dst-address=154.197.64.0/19 gateway=%ether1 routing-table=noncn
-/ip/route/add distance=10 dst-address=154.197.96.0/20 gateway=%ether1 routing-table=noncn
-/ip/route/add distance=10 dst-address=154.197.112.0/21 gateway=%ether1 routing-table=noncn
-/ip/route/add distance=10 dst-address=154.197.120.0/22 gateway=%ether1 routing-table=noncn
-/ip/route/add distance=10 dst-address=154.197.126.0/23 gateway=%ether1 routing-table=noncn
-/ip/route/add distance=10 dst-address=154.197.124.0/24 gateway=%ether1 routing-table=noncn
+/ip/route/add distance=10 dst-address=154.197.64.0/18 gateway=%ether1 routing-table=noncn
 /ip/route/add distance=10 dst-address=154.197.0.0/19 gateway=%ether1 routing-table=noncn
 /ip/route/add distance=10 dst-address=154.197.32.0/20 gateway=%ether1 routing-table=noncn
 /ip/route/add distance=10 dst-address=154.197.48.0/21 gateway=%ether1 routing-table=noncn
