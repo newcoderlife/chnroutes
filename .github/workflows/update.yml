@@ -21,7 +21,7 @@ jobs:
         git config --global user.email "newcoderlife@gmail.com"
 
     - name: Run Makefile
-      run: make generate EXCLUDE="${{ secrets.EXCLUDE }}"
+      run: make generate EXCLUDE="${{ secrets.EXCLUDE }}" NEXT="${{ secrets.NEXT }}"
 
     - name: Commit changes
       run: |
