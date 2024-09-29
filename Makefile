@@ -1,4 +1,5 @@
 EXCLUDE :=
+NEXT :=
 
 all: generate
 
@@ -11,7 +12,7 @@ update-dependency:
 
 .PHONY: generate
 generate: update-dependency
-	python3 generate.py --exclude $(EXCLUDE)
+	python3 generate.py --exclude $(EXCLUDE) --next $(NEXT)
 
 .PHONY: force-push
 force-push:

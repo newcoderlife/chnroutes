@@ -2,7 +2,7 @@
 
 import argparse
 import csv
-from ipaddress import IPv4Network, IPv6Network
+from ipaddress import IPv4Network
 import math
 
 parser = argparse.ArgumentParser(description='Generate non-China routes for RouterOS.')
