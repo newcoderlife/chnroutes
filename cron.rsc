@@ -1,8 +1,8 @@
+# Add download script and run daily
 /system script
-add name=noncn policy=ftp,reboot,read,write,policy,test,winbox,password,sniff,sensitive source="{
-    /tool fetch url=\"https://raw.githubusercontent.com/newcoderlife/chnroutes/refs/heads/master/noncn.rsc\" mode=http dst-path=/noncn.rsc;
-    /import file-name=noncn.rsc;
-}"
-
+add dont-require-permissions=no name=noncn owner=admin policy=ftp,reboot,read,write,policy,test,password,sniff,sensitive,romon source="{\
+    \n    /tool fetch url=\\\"https://raw.githubusercontent.com/newcoderlife/chnroutes/refs/heads/master/noncn.rsc\\\" mode=http dst-path=/noncn.rsc;\
+    \n    /import file-name=noncn.rsc;\
+    \n}"
 /system scheduler
-add name=noncn start-time=01:00:00 interval=1d on-event=noncn
+add interval=12h name=noncn on-event=noncn policy=ftp,reboot,read,write,policy,test,password,sniff,sensitive,romon start-date=2024-10-01 start-time=01:00:00
