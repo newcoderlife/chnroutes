@@ -10860,9 +10860,10 @@
 /ip/route/add distance=10 dst-address=154.197.226.0/23 gateway=ether1 routing-table=noncn
 /ip/route/add distance=10 dst-address=154.197.225.0/24 gateway=ether1 routing-table=noncn
 /ip/route/add distance=10 dst-address=154.197.176.0/20 gateway=ether1 routing-table=noncn
-/ip/route/add distance=10 dst-address=154.197.168.0/22 gateway=ether1 routing-table=noncn
 /ip/route/add distance=10 dst-address=154.197.174.0/23 gateway=ether1 routing-table=noncn
 /ip/route/add distance=10 dst-address=154.197.173.0/24 gateway=ether1 routing-table=noncn
+/ip/route/add distance=10 dst-address=154.197.170.0/23 gateway=ether1 routing-table=noncn
+/ip/route/add distance=10 dst-address=154.197.169.0/24 gateway=ether1 routing-table=noncn
 /ip/route/add distance=10 dst-address=154.197.164.0/22 gateway=ether1 routing-table=noncn
 /ip/route/add distance=10 dst-address=154.197.160.0/23 gateway=ether1 routing-table=noncn
 /ip/route/add distance=10 dst-address=154.197.162.0/24 gateway=ether1 routing-table=noncn
