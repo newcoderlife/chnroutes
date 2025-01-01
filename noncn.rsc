@@ -11067,7 +11067,6 @@
 /ip/route/add distance=10 dst-address=156.238.0.0/16 gateway=ether1 routing-table=noncn
 /ip/route/add distance=10 dst-address=156.239.128.0/18 gateway=ether1 routing-table=noncn
 /ip/route/add distance=10 dst-address=156.239.192.0/19 gateway=ether1 routing-table=noncn
-/ip/route/add distance=10 dst-address=156.239.64.0/19 gateway=ether1 routing-table=noncn
 /ip/route/add distance=10 dst-address=156.239.32.0/19 gateway=ether1 routing-table=noncn
 /ip/route/add distance=10 dst-address=156.239.16.0/20 gateway=ether1 routing-table=noncn
 /ip/route/add distance=10 dst-address=156.237.128.0/17 gateway=ether1 routing-table=noncn
@@ -11733,7 +11732,6 @@
 /ip/route/add distance=10 dst-address=163.181.48.0/24 gateway=ether1 routing-table=noncn
 /ip/route/add distance=10 dst-address=163.181.46.0/23 gateway=ether1 routing-table=noncn
 /ip/route/add distance=10 dst-address=163.181.45.0/24 gateway=ether1 routing-table=noncn
-/ip/route/add distance=10 dst-address=163.181.43.0/24 gateway=ether1 routing-table=noncn
 /ip/route/add distance=10 dst-address=163.181.41.0/24 gateway=ether1 routing-table=noncn
 /ip/route/add distance=10 dst-address=163.181.30.0/23 gateway=ether1 routing-table=noncn
 /ip/route/add distance=10 dst-address=163.181.29.0/24 gateway=ether1 routing-table=noncn
@@ -14403,7 +14401,7 @@
 /ip/route/add distance=10 dst-address=203.175.16.0/20 gateway=ether1 routing-table=noncn
 /ip/route/add distance=10 dst-address=203.175.0.0/21 gateway=ether1 routing-table=noncn
 /ip/route/add distance=10 dst-address=203.175.8.0/22 gateway=ether1 routing-table=noncn
-/ip/route/add distance=10 dst-address=203.175.12.0/23 gateway=ether1 routing-table=noncn
+/ip/route/add distance=10 dst-address=203.175.13.0/24 gateway=ether1 routing-table=noncn
 /ip/route/add distance=10 dst-address=203.175.160.0/19 gateway=ether1 routing-table=noncn
 /ip/route/add distance=10 dst-address=203.174.128.0/17 gateway=ether1 routing-table=noncn
 /ip/route/add distance=10 dst-address=203.174.64.0/19 gateway=ether1 routing-table=noncn
