@@ -1020,7 +1020,7 @@
 /ip/route/add distance=10 dst-address=38.105.32.0/19 gateway=ether1 routing-table=noncn
 /ip/route/add distance=10 dst-address=38.105.0.0/20 gateway=ether1 routing-table=noncn
 /ip/route/add distance=10 dst-address=38.105.16.0/21 gateway=ether1 routing-table=noncn
-/ip/route/add distance=10 dst-address=38.105.24.0/23 gateway=ether1 routing-table=noncn
+/ip/route/add distance=10 dst-address=38.105.25.0/24 gateway=ether1 routing-table=noncn
 /ip/route/add distance=10 dst-address=38.108.0.0/15 gateway=ether1 routing-table=noncn
 /ip/route/add distance=10 dst-address=38.110.0.0/16 gateway=ether1 routing-table=noncn
 /ip/route/add distance=10 dst-address=38.111.0.0/17 gateway=ether1 routing-table=noncn
@@ -5267,8 +5267,7 @@
 /ip/route/add distance=10 dst-address=103.144.192.0/19 gateway=ether1 routing-table=noncn
 /ip/route/add distance=10 dst-address=103.144.224.0/20 gateway=ether1 routing-table=noncn
 /ip/route/add distance=10 dst-address=103.144.248.0/21 gateway=ether1 routing-table=noncn
-/ip/route/add distance=10 dst-address=103.144.246.0/23 gateway=ether1 routing-table=noncn
-/ip/route/add distance=10 dst-address=103.144.244.0/24 gateway=ether1 routing-table=noncn
+/ip/route/add distance=10 dst-address=103.144.244.0/22 gateway=ether1 routing-table=noncn
 /ip/route/add distance=10 dst-address=103.144.242.0/23 gateway=ether1 routing-table=noncn
 /ip/route/add distance=10 dst-address=103.144.160.0/19 gateway=ether1 routing-table=noncn
 /ip/route/add distance=10 dst-address=103.144.144.0/21 gateway=ether1 routing-table=noncn
@@ -11491,7 +11490,8 @@
 /ip/route/add distance=10 dst-address=163.184.0.0/13 gateway=ether1 routing-table=noncn
 /ip/route/add distance=10 dst-address=163.182.0.0/15 gateway=ether1 routing-table=noncn
 /ip/route/add distance=10 dst-address=163.180.0.0/16 gateway=ether1 routing-table=noncn
-/ip/route/add distance=10 dst-address=163.181.252.0/22 gateway=ether1 routing-table=noncn
+/ip/route/add distance=10 dst-address=163.181.254.0/24 gateway=ether1 routing-table=noncn
+/ip/route/add distance=10 dst-address=163.181.252.0/24 gateway=ether1 routing-table=noncn
 /ip/route/add distance=10 dst-address=163.181.247.0/24 gateway=ether1 routing-table=noncn
 /ip/route/add distance=10 dst-address=163.181.240.0/24 gateway=ether1 routing-table=noncn
 /ip/route/add distance=10 dst-address=163.181.235.0/24 gateway=ether1 routing-table=noncn
