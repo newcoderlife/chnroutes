@@ -7671,7 +7671,12 @@
 /ip/route/add distance=10 dst-address=163.224.0.0/15 gateway=ether1 routing-table=noncn
 /ip/route/add distance=10 dst-address=163.226.0.0/16 gateway=ether1 routing-table=noncn
 /ip/route/add distance=10 dst-address=163.227.128.0/17 gateway=ether1 routing-table=noncn
-/ip/route/add distance=10 dst-address=163.227.64.0/18 gateway=ether1 routing-table=noncn
+/ip/route/add distance=10 dst-address=163.227.96.0/19 gateway=ether1 routing-table=noncn
+/ip/route/add distance=10 dst-address=163.227.88.0/21 gateway=ether1 routing-table=noncn
+/ip/route/add distance=10 dst-address=163.227.84.0/22 gateway=ether1 routing-table=noncn
+/ip/route/add distance=10 dst-address=163.227.82.0/23 gateway=ether1 routing-table=noncn
+/ip/route/add distance=10 dst-address=163.227.64.0/21 gateway=ether1 routing-table=noncn
+/ip/route/add distance=10 dst-address=163.227.72.0/23 gateway=ether1 routing-table=noncn
 /ip/route/add distance=10 dst-address=163.227.0.0/19 gateway=ether1 routing-table=noncn
 /ip/route/add distance=10 dst-address=163.227.48.0/20 gateway=ether1 routing-table=noncn
 /ip/route/add distance=10 dst-address=163.227.44.0/22 gateway=ether1 routing-table=noncn
