@@ -6018,9 +6018,7 @@
 /ip/route/add distance=10 dst-address=113.192.128.0/17 gateway=ether1 routing-table=noncn
 /ip/route/add distance=10 dst-address=113.192.64.0/18 gateway=ether1 routing-table=noncn
 /ip/route/add distance=10 dst-address=113.192.0.0/19 gateway=ether1 routing-table=noncn
-/ip/route/add distance=10 dst-address=113.192.48.0/21 gateway=ether1 routing-table=noncn
-/ip/route/add distance=10 dst-address=113.192.60.0/22 gateway=ether1 routing-table=noncn
-/ip/route/add distance=10 dst-address=113.192.58.0/23 gateway=ether1 routing-table=noncn
+/ip/route/add distance=10 dst-address=113.192.48.0/20 gateway=ether1 routing-table=noncn
 /ip/route/add distance=10 dst-address=113.192.32.0/21 gateway=ether1 routing-table=noncn
 /ip/route/add distance=10 dst-address=113.192.44.0/22 gateway=ether1 routing-table=noncn
 /ip/route/add distance=10 dst-address=113.192.42.0/23 gateway=ether1 routing-table=noncn
