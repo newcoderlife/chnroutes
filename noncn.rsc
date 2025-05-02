@@ -3784,10 +3784,7 @@
 /ip/route/add distance=10 dst-address=103.121.128.0/19 gateway=ether1 routing-table=noncn
 /ip/route/add distance=10 dst-address=103.121.176.0/20 gateway=ether1 routing-table=noncn
 /ip/route/add distance=10 dst-address=103.121.168.0/21 gateway=ether1 routing-table=noncn
-/ip/route/add distance=10 dst-address=103.121.96.0/19 gateway=ether1 routing-table=noncn
-/ip/route/add distance=10 dst-address=103.121.64.0/20 gateway=ether1 routing-table=noncn
-/ip/route/add distance=10 dst-address=103.121.80.0/21 gateway=ether1 routing-table=noncn
-/ip/route/add distance=10 dst-address=103.121.88.0/22 gateway=ether1 routing-table=noncn
+/ip/route/add distance=10 dst-address=103.121.64.0/18 gateway=ether1 routing-table=noncn
 /ip/route/add distance=10 dst-address=103.121.0.0/19 gateway=ether1 routing-table=noncn
 /ip/route/add distance=10 dst-address=103.121.32.0/20 gateway=ether1 routing-table=noncn
 /ip/route/add distance=10 dst-address=103.121.56.0/21 gateway=ether1 routing-table=noncn
@@ -6751,7 +6748,11 @@
 /ip/route/add distance=10 dst-address=124.208.0.0/13 gateway=ether1 routing-table=noncn
 /ip/route/add distance=10 dst-address=124.216.0.0/14 gateway=ether1 routing-table=noncn
 /ip/route/add distance=10 dst-address=124.198.0.0/15 gateway=ether1 routing-table=noncn
-/ip/route/add distance=10 dst-address=124.197.0.0/16 gateway=ether1 routing-table=noncn
+/ip/route/add distance=10 dst-address=124.197.128.0/17 gateway=ether1 routing-table=noncn
+/ip/route/add distance=10 dst-address=124.197.64.0/18 gateway=ether1 routing-table=noncn
+/ip/route/add distance=10 dst-address=124.197.0.0/19 gateway=ether1 routing-table=noncn
+/ip/route/add distance=10 dst-address=124.197.32.0/20 gateway=ether1 routing-table=noncn
+/ip/route/add distance=10 dst-address=124.197.48.0/21 gateway=ether1 routing-table=noncn
 /ip/route/add distance=10 dst-address=124.194.0.0/15 gateway=ether1 routing-table=noncn
 /ip/route/add distance=10 dst-address=124.176.0.0/12 gateway=ether1 routing-table=noncn
 /ip/route/add distance=10 dst-address=124.168.0.0/14 gateway=ether1 routing-table=noncn
