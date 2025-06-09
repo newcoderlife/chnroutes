@@ -1829,6 +1829,7 @@
 /ip/route/add distance=10 dst-address=44.31.29.0/24 gateway=ether1 routing-table=noncn
 /ip/route/add distance=10 dst-address=45.160.0.0/11 gateway=ether1 routing-table=noncn
 /ip/route/add distance=10 dst-address=45.128.0.0/12 gateway=ether1 routing-table=noncn
+/ip/route/add distance=10 dst-address=45.156.0.0/14 gateway=ether1 routing-table=noncn
 /ip/route/add distance=10 dst-address=45.154.0.0/15 gateway=ether1 routing-table=noncn
 /ip/route/add distance=10 dst-address=45.152.0.0/16 gateway=ether1 routing-table=noncn
 /ip/route/add distance=10 dst-address=45.153.0.0/17 gateway=ether1 routing-table=noncn
@@ -1837,16 +1838,6 @@
 /ip/route/add distance=10 dst-address=45.153.144.0/20 gateway=ether1 routing-table=noncn
 /ip/route/add distance=10 dst-address=45.153.136.0/21 gateway=ether1 routing-table=noncn
 /ip/route/add distance=10 dst-address=45.153.132.0/22 gateway=ether1 routing-table=noncn
-/ip/route/add distance=10 dst-address=45.158.0.0/15 gateway=ether1 routing-table=noncn
-/ip/route/add distance=10 dst-address=45.156.0.0/16 gateway=ether1 routing-table=noncn
-/ip/route/add distance=10 dst-address=45.157.128.0/17 gateway=ether1 routing-table=noncn
-/ip/route/add distance=10 dst-address=45.157.0.0/18 gateway=ether1 routing-table=noncn
-/ip/route/add distance=10 dst-address=45.157.96.0/19 gateway=ether1 routing-table=noncn
-/ip/route/add distance=10 dst-address=45.157.64.0/20 gateway=ether1 routing-table=noncn
-/ip/route/add distance=10 dst-address=45.157.80.0/21 gateway=ether1 routing-table=noncn
-/ip/route/add distance=10 dst-address=45.157.92.0/22 gateway=ether1 routing-table=noncn
-/ip/route/add distance=10 dst-address=45.157.90.0/23 gateway=ether1 routing-table=noncn
-/ip/route/add distance=10 dst-address=45.157.89.0/24 gateway=ether1 routing-table=noncn
 /ip/route/add distance=10 dst-address=45.148.0.0/15 gateway=ether1 routing-table=noncn
 /ip/route/add distance=10 dst-address=45.150.0.0/17 gateway=ether1 routing-table=noncn
 /ip/route/add distance=10 dst-address=45.150.128.0/18 gateway=ether1 routing-table=noncn
