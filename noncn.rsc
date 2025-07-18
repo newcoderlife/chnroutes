@@ -2572,6 +2572,7 @@
 /ip/route/add distance=10 dst-address=81.173.16.0/23 gateway=ether1 routing-table=noncn
 /ip/route/add distance=10 dst-address=81.32.0.0/11 gateway=ether1 routing-table=noncn
 /ip/route/add distance=10 dst-address=81.0.0.0/12 gateway=ether1 routing-table=noncn
+/ip/route/add distance=10 dst-address=81.24.0.0/13 gateway=ether1 routing-table=noncn
 /ip/route/add distance=10 dst-address=81.16.0.0/14 gateway=ether1 routing-table=noncn
 /ip/route/add distance=10 dst-address=81.20.0.0/15 gateway=ether1 routing-table=noncn
 /ip/route/add distance=10 dst-address=81.22.0.0/16 gateway=ether1 routing-table=noncn
@@ -2579,13 +2580,6 @@
 /ip/route/add distance=10 dst-address=81.23.128.0/18 gateway=ether1 routing-table=noncn
 /ip/route/add distance=10 dst-address=81.23.224.0/19 gateway=ether1 routing-table=noncn
 /ip/route/add distance=10 dst-address=81.23.192.0/20 gateway=ether1 routing-table=noncn
-/ip/route/add distance=10 dst-address=81.24.0.0/14 gateway=ether1 routing-table=noncn
-/ip/route/add distance=10 dst-address=81.30.0.0/15 gateway=ether1 routing-table=noncn
-/ip/route/add distance=10 dst-address=81.29.0.0/16 gateway=ether1 routing-table=noncn
-/ip/route/add distance=10 dst-address=81.28.128.0/17 gateway=ether1 routing-table=noncn
-/ip/route/add distance=10 dst-address=81.28.0.0/18 gateway=ether1 routing-table=noncn
-/ip/route/add distance=10 dst-address=81.28.96.0/19 gateway=ether1 routing-table=noncn
-/ip/route/add distance=10 dst-address=81.28.80.0/20 gateway=ether1 routing-table=noncn
 /ip/route/add distance=10 dst-address=81.96.0.0/11 gateway=ether1 routing-table=noncn
 /ip/route/add distance=10 dst-address=81.80.0.0/12 gateway=ether1 routing-table=noncn
 /ip/route/add distance=10 dst-address=81.72.0.0/13 gateway=ether1 routing-table=noncn
