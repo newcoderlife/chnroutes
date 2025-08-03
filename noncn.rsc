@@ -11089,7 +11089,7 @@
 /ip/route/add distance=10 dst-address=185.78.112.0/20 gateway=ether1 routing-table=noncn
 /ip/route/add distance=10 dst-address=185.78.96.0/21 gateway=ether1 routing-table=noncn
 /ip/route/add distance=10 dst-address=185.78.108.0/22 gateway=ether1 routing-table=noncn
-/ip/route/add distance=10 dst-address=185.78.104.0/23 gateway=ether1 routing-table=noncn
+/ip/route/add distance=10 dst-address=185.78.104.0/24 gateway=ether1 routing-table=noncn
 /ip/route/add distance=10 dst-address=185.72.0.0/15 gateway=ether1 routing-table=noncn
 /ip/route/add distance=10 dst-address=185.74.0.0/16 gateway=ether1 routing-table=noncn
 /ip/route/add distance=10 dst-address=185.75.0.0/17 gateway=ether1 routing-table=noncn
