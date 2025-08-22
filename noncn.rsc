@@ -2710,12 +2710,7 @@
 /ip/route/add distance=10 dst-address=101.78.8.0/21 gateway=ether1 routing-table=noncn
 /ip/route/add distance=10 dst-address=101.78.4.0/22 gateway=ether1 routing-table=noncn
 /ip/route/add distance=10 dst-address=101.56.0.0/13 gateway=ether1 routing-table=noncn
-/ip/route/add distance=10 dst-address=101.55.64.0/18 gateway=ether1 routing-table=noncn
-/ip/route/add distance=10 dst-address=101.55.32.0/19 gateway=ether1 routing-table=noncn
-/ip/route/add distance=10 dst-address=101.55.0.0/20 gateway=ether1 routing-table=noncn
-/ip/route/add distance=10 dst-address=101.55.24.0/21 gateway=ether1 routing-table=noncn
-/ip/route/add distance=10 dst-address=101.55.16.0/22 gateway=ether1 routing-table=noncn
-/ip/route/add distance=10 dst-address=101.55.22.0/23 gateway=ether1 routing-table=noncn
+/ip/route/add distance=10 dst-address=101.55.0.0/17 gateway=ether1 routing-table=noncn
 /ip/route/add distance=10 dst-address=101.55.128.0/18 gateway=ether1 routing-table=noncn
 /ip/route/add distance=10 dst-address=101.55.192.0/19 gateway=ether1 routing-table=noncn
 /ip/route/add distance=10 dst-address=101.55.240.0/20 gateway=ether1 routing-table=noncn
