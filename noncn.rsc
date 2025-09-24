@@ -9545,8 +9545,7 @@
 /ip/route/add distance=10 dst-address=145.14.85.0/24 gateway=ether1 routing-table=noncn
 /ip/route/add distance=10 dst-address=145.14.83.0/24 gateway=ether1 routing-table=noncn
 /ip/route/add distance=10 dst-address=145.14.80.0/24 gateway=ether1 routing-table=noncn
-/ip/route/add distance=10 dst-address=145.14.76.0/23 gateway=ether1 routing-table=noncn
-/ip/route/add distance=10 dst-address=145.14.78.0/24 gateway=ether1 routing-table=noncn
+/ip/route/add distance=10 dst-address=145.14.76.0/22 gateway=ether1 routing-table=noncn
 /ip/route/add distance=10 dst-address=145.14.64.0/22 gateway=ether1 routing-table=noncn
 /ip/route/add distance=10 dst-address=145.14.68.0/23 gateway=ether1 routing-table=noncn
 /ip/route/add distance=10 dst-address=145.14.70.0/24 gateway=ether1 routing-table=noncn
