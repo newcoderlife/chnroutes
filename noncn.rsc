@@ -4844,7 +4844,8 @@
 /ip/route/add distance=10 dst-address=103.139.208.0/22 gateway=ether1 routing-table=noncn
 /ip/route/add distance=10 dst-address=103.139.214.0/23 gateway=ether1 routing-table=noncn
 /ip/route/add distance=10 dst-address=103.139.192.0/21 gateway=ether1 routing-table=noncn
-/ip/route/add distance=10 dst-address=103.139.200.0/22 gateway=ether1 routing-table=noncn
+/ip/route/add distance=10 dst-address=103.139.202.0/23 gateway=ether1 routing-table=noncn
+/ip/route/add distance=10 dst-address=103.139.201.0/24 gateway=ether1 routing-table=noncn
 /ip/route/add distance=10 dst-address=103.139.206.0/23 gateway=ether1 routing-table=noncn
 /ip/route/add distance=10 dst-address=103.139.176.0/20 gateway=ether1 routing-table=noncn
 /ip/route/add distance=10 dst-address=103.139.160.0/21 gateway=ether1 routing-table=noncn
