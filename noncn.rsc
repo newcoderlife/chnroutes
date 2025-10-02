@@ -9849,6 +9849,7 @@
 /ip/route/add distance=10 dst-address=154.89.128.0/17 gateway=ether1 routing-table=noncn
 /ip/route/add distance=10 dst-address=154.89.64.0/18 gateway=ether1 routing-table=noncn
 /ip/route/add distance=10 dst-address=154.89.0.0/19 gateway=ether1 routing-table=noncn
+/ip/route/add distance=10 dst-address=154.89.55.0/24 gateway=ether1 routing-table=noncn
 /ip/route/add distance=10 dst-address=154.89.48.0/24 gateway=ether1 routing-table=noncn
 /ip/route/add distance=10 dst-address=154.90.0.0/16 gateway=ether1 routing-table=noncn
 /ip/route/add distance=10 dst-address=154.91.0.0/17 gateway=ether1 routing-table=noncn
