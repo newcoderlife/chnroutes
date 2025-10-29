@@ -14723,7 +14723,7 @@
 /ip/route/add distance=10 dst-address=203.12.104.0/21 gateway=ether1 routing-table=noncn
 /ip/route/add distance=10 dst-address=203.12.96.0/22 gateway=ether1 routing-table=noncn
 /ip/route/add distance=10 dst-address=203.12.102.0/24 gateway=ether1 routing-table=noncn
-/ip/route/add distance=10 dst-address=203.12.94.0/24 gateway=ether1 routing-table=noncn
+/ip/route/add distance=10 dst-address=203.12.94.0/23 gateway=ether1 routing-table=noncn
 /ip/route/add distance=10 dst-address=203.12.92.0/24 gateway=ether1 routing-table=noncn
 /ip/route/add distance=10 dst-address=203.12.88.0/23 gateway=ether1 routing-table=noncn
 /ip/route/add distance=10 dst-address=203.12.90.0/24 gateway=ether1 routing-table=noncn
