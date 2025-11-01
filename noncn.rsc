@@ -103,6 +103,8 @@
 /ip/route/add distance=10 dst-address=7.0.0.0/8 gateway=ether1 routing-table=noncn
 /ip/route/add distance=10 dst-address=8.0.0.0/9 gateway=ether1 routing-table=noncn
 /ip/route/add distance=10 dst-address=8.192.0.0/10 gateway=ether1 routing-table=noncn
+/ip/route/add distance=10 dst-address=8.148.40.0/23 gateway=ether1 routing-table=noncn
+/ip/route/add distance=10 dst-address=8.148.43.0/24 gateway=ether1 routing-table=noncn
 /ip/route/add distance=10 dst-address=9.0.0.0/8 gateway=ether1 routing-table=noncn
 /ip/route/add distance=10 dst-address=11.0.0.0/8 gateway=ether1 routing-table=noncn
 /ip/route/add distance=10 dst-address=12.0.0.0/8 gateway=ether1 routing-table=noncn
