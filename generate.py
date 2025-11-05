@@ -3,21 +3,29 @@
 import argparse
 import csv
 import math
-from ipaddress import IPv4Network
+from ipaddress import IPv4Network, IPv6Network, ip_network
 
-parser = argparse.ArgumentParser(description="Generate non-China routes for RouterOS.")
+parser = argparse.ArgumentParser(
+    description="Generate non-China IPv4/IPv6 routes for RouterOS."
+)
 parser.add_argument(
     "--exclude",
     metavar="CIDR",
     type=str,
     nargs="*",
-    help="IPv4 ranges to exclude in CIDR format",
+    help="Extra IPv4/IPv6 CIDR prefixes to keep local (excluded from output)",
 )
 parser.add_argument(
     "--next",
     default="%ether1",
     metavar="INTERFACE OR IP",
-    help="next hop for where non-China IP address, this is usually the tunnel interface",
+    help="next hop for non-China IPv4/IPv6; typically your tunnel interface or gateway",
+)
+parser.add_argument(
+    "--next6",
+    default=None,
+    metavar="INTERFACE OR IP",
+    help="next hop for non-China IPv6; overrides --next when set",
 )
 parser.add_argument(
     "--chn_list",
@@ -25,9 +33,11 @@ parser.add_argument(
         "dependency/china_ip_list.txt",
         "dependency/china.txt",
         "dependency/chnroutes.txt",
+        "dependency/china6.txt",
+        "dependency/chnroute_v6.txt",
     ],
     nargs="*",
-    help="IPv4 lists to use when subtracting China based IP, multiple lists can be used at the same time",
+    help="China IP lists (IPv4/IPv6). Each line is a CIDR. Blank lines are ignored. Multiple files supported.",
 )
 args = parser.parse_args()
 
@@ -71,6 +81,29 @@ def dump_rds_inner(lst, f):
             )
 
 
+def dump_rsc6(lst, f):
+    f.write(
+        ':foreach routeId in=[/ipv6/route/find where routing-table="noncn"] do={\n/ipv6/route/remove ($routeId)\n}\n'
+    )
+
+    dump_rds6_inner(lst, f)
+
+
+def dump_rds6_inner(lst, f):
+    for n in lst:
+        if n.dead:
+            continue
+
+        if len(n.child) > 0:
+            dump_rds6_inner(n.child, f)
+        elif not n.dead:
+            nh = args.next6 if args.next6 is not None else args.next
+            f.write(
+                "/ipv6/route/add distance=10 dst-address=%s gateway=%s routing-table=noncn\n"
+                % (n.cidr, nh)
+            )
+
+
 RESERVED = [
     IPv4Network("0.0.0.0/8"),
     IPv4Network("10.0.0.0/8"),
@@ -91,9 +124,23 @@ RESERVED = [
     IPv4Network("224.0.0.0/4"),
     IPv4Network("100.64.0.0/10"),
 ]
-if args.exclude:
-    for e in args.exclude:
-        RESERVED.append(IPv4Network(e))
+
+RESERVED6 = [
+    IPv6Network("::/128"),
+    IPv6Network("::1/128"),
+    IPv6Network("::ffff:0:0/96"),
+    IPv6Network("64:ff9b::/96"),
+    IPv6Network("100::/64"),
+    IPv6Network("2001:db8::/32"),
+    IPv6Network("2001:2::/48"),
+    IPv6Network("2001:10::/28"),
+    IPv6Network("2001:20::/28"),
+    IPv6Network("2001:0::/32"),  # Teredo
+    IPv6Network("2002::/16"),  # 6to4
+    IPv6Network("fc00::/7"),
+    IPv6Network("fe80::/10"),
+    IPv6Network("ff00::/8"),
+]
 
 
 def subtract_cidr(sub_from, sub_by):
@@ -114,6 +161,9 @@ def subtract_cidr(sub_from, sub_by):
 
 
 root = []
+
+# IPv6 universe root (define before use)
+root6 = [Node(IPv6Network("2000::/3"))]
 
 with open("dependency/ipv4-address-space.csv", newline="") as f:
     f.readline()  # skip the title
@@ -138,18 +188,54 @@ with open("dependency/delegated-apnic-latest") as f:
             )
             a = IPv4Network(a)
             subtract_cidr(root, (a,))
+        elif "apnic|CN|ipv6|" in line:
+            line = line.split("|")
+            # For IPv6 in delegated files, value is prefix length
+            a6 = f"{line[3]}/{int(line[4])}"
+            a6 = IPv6Network(a6)
+            subtract_cidr(root6, (a6,))
 
-for path in args.chn_list:
+
+all_lists = []
+if args.chn_list:
+    all_lists.extend(args.chn_list)
+
+# de-duplicate while preserving order
+seen = set()
+dedup_lists = []
+for p in all_lists:
+    if p not in seen:
+        dedup_lists.append(p)
+        seen.add(p)
+
+for path in dedup_lists:
     with open(path, "r") as f:
         for line in f:
-            if line.strip() == "" or line.startswith("#"):
+            s = line.strip()
+            if s == "" or s.startswith("#"):
                 continue
 
-            line = line.strip("\n")
-            a = IPv4Network(line)
-            subtract_cidr(root, (a,))
+            net = ip_network(s, strict=True)
+            if isinstance(net, IPv4Network):
+                subtract_cidr(root, (net,))
+            else:
+                subtract_cidr(root6, (net,))
+
+extra_excludes = []
+if args.exclude:
+    extra_excludes.extend(args.exclude)
+
+for e in extra_excludes:
+    net = ip_network(e, strict=True)
+    if isinstance(net, IPv4Network):
+        RESERVED.append(net)
+    else:
+        RESERVED6.append(net)
 
 subtract_cidr(root, RESERVED)
 
+subtract_cidr(root6, RESERVED6)
+
 with open("noncn.rsc", "w") as f:
     dump_rsc(root, f)
+    dump_rsc6(root6, f)
