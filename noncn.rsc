@@ -6424,7 +6424,10 @@
 /ip/route/add distance=10 dst-address=103.43.216.0/22 gateway=ether1 routing-table=noncn
 /ip/route/add distance=10 dst-address=103.43.212.0/22 gateway=ether1 routing-table=noncn
 /ip/route/add distance=10 dst-address=103.43.200.0/21 gateway=ether1 routing-table=noncn
-/ip/route/add distance=10 dst-address=103.43.160.0/20 gateway=ether1 routing-table=noncn
+/ip/route/add distance=10 dst-address=103.43.160.0/21 gateway=ether1 routing-table=noncn
+/ip/route/add distance=10 dst-address=103.43.168.0/22 gateway=ether1 routing-table=noncn
+/ip/route/add distance=10 dst-address=103.43.172.0/23 gateway=ether1 routing-table=noncn
+/ip/route/add distance=10 dst-address=103.43.174.0/24 gateway=ether1 routing-table=noncn
 /ip/route/add distance=10 dst-address=103.43.176.0/21 gateway=ether1 routing-table=noncn
 /ip/route/add distance=10 dst-address=103.43.188.0/22 gateway=ether1 routing-table=noncn
 /ip/route/add distance=10 dst-address=103.43.144.0/20 gateway=ether1 routing-table=noncn
@@ -9420,7 +9423,9 @@
 /ip/route/add distance=10 dst-address=144.78.0.0/16 gateway=ether1 routing-table=noncn
 /ip/route/add distance=10 dst-address=144.79.128.0/17 gateway=ether1 routing-table=noncn
 /ip/route/add distance=10 dst-address=144.79.96.0/19 gateway=ether1 routing-table=noncn
-/ip/route/add distance=10 dst-address=144.79.80.0/20 gateway=ether1 routing-table=noncn
+/ip/route/add distance=10 dst-address=144.79.88.0/21 gateway=ether1 routing-table=noncn
+/ip/route/add distance=10 dst-address=144.79.80.0/22 gateway=ether1 routing-table=noncn
+/ip/route/add distance=10 dst-address=144.79.86.0/23 gateway=ether1 routing-table=noncn
 /ip/route/add distance=10 dst-address=144.79.72.0/21 gateway=ether1 routing-table=noncn
 /ip/route/add distance=10 dst-address=144.79.64.0/22 gateway=ether1 routing-table=noncn
 /ip/route/add distance=10 dst-address=144.79.68.0/23 gateway=ether1 routing-table=noncn
@@ -16090,6 +16095,7 @@
 /ipv6/route/add distance=10 dst-address=2a13:a5c7:3320::/43 gateway=ether1 routing-table=noncn
 /ipv6/route/add distance=10 dst-address=2a13:a5c7:3310::/44 gateway=ether1 routing-table=noncn
 /ipv6/route/add distance=10 dst-address=2a13:a5c7:3308::/45 gateway=ether1 routing-table=noncn
+/ipv6/route/add distance=10 dst-address=2a13:a5c7:3307::/48 gateway=ether1 routing-table=noncn
 /ipv6/route/add distance=10 dst-address=2a13:a5c7:3305::/48 gateway=ether1 routing-table=noncn
 /ipv6/route/add distance=10 dst-address=2a13:a5c7:3302::/47 gateway=ether1 routing-table=noncn
 /ipv6/route/add distance=10 dst-address=2a13:a5c7:3300::/48 gateway=ether1 routing-table=noncn
@@ -17296,7 +17302,7 @@
 /ipv6/route/add distance=10 dst-address=2a06:9f81:4700::/40 gateway=ether1 routing-table=noncn
 /ipv6/route/add distance=10 dst-address=2a06:9f81:4680::/41 gateway=ether1 routing-table=noncn
 /ipv6/route/add distance=10 dst-address=2a06:9f81:4660::/43 gateway=ether1 routing-table=noncn
-/ipv6/route/add distance=10 dst-address=2a06:9f81:4620::/43 gateway=ether1 routing-table=noncn
+/ipv6/route/add distance=10 dst-address=2a06:9f81:4630::/44 gateway=ether1 routing-table=noncn
 /ipv6/route/add distance=10 dst-address=2a06:4000::/18 gateway=ether1 routing-table=noncn
 /ipv6/route/add distance=10 dst-address=2a06:2000::/20 gateway=ether1 routing-table=noncn
 /ipv6/route/add distance=10 dst-address=2a06:3800::/21 gateway=ether1 routing-table=noncn
@@ -27841,7 +27847,13 @@
 /ipv6/route/add distance=10 dst-address=2402:3e04::/30 gateway=ether1 routing-table=noncn
 /ipv6/route/add distance=10 dst-address=2402:3e02::/31 gateway=ether1 routing-table=noncn
 /ipv6/route/add distance=10 dst-address=2402:3e01::/32 gateway=ether1 routing-table=noncn
-/ipv6/route/add distance=10 dst-address=2402:3d80::/25 gateway=ether1 routing-table=noncn
+/ipv6/route/add distance=10 dst-address=2402:3d80::/26 gateway=ether1 routing-table=noncn
+/ipv6/route/add distance=10 dst-address=2402:3dc0::/27 gateway=ether1 routing-table=noncn
+/ipv6/route/add distance=10 dst-address=2402:3df0::/28 gateway=ether1 routing-table=noncn
+/ipv6/route/add distance=10 dst-address=2402:3de8::/29 gateway=ether1 routing-table=noncn
+/ipv6/route/add distance=10 dst-address=2402:3de4::/30 gateway=ether1 routing-table=noncn
+/ipv6/route/add distance=10 dst-address=2402:3de2::/31 gateway=ether1 routing-table=noncn
+/ipv6/route/add distance=10 dst-address=2402:3de1::/32 gateway=ether1 routing-table=noncn
 /ipv6/route/add distance=10 dst-address=2402:3d40::/26 gateway=ether1 routing-table=noncn
 /ipv6/route/add distance=10 dst-address=2402:3d00::/27 gateway=ether1 routing-table=noncn
 /ipv6/route/add distance=10 dst-address=2402:3d30::/28 gateway=ether1 routing-table=noncn
