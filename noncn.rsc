@@ -16076,7 +16076,6 @@
 /ipv6/route/add distance=10 dst-address=2a0f:1cc5:f10::/44 gateway=ether1 routing-table=noncn
 /ipv6/route/add distance=10 dst-address=2a0f:1cc5:f0c::/46 gateway=ether1 routing-table=noncn
 /ipv6/route/add distance=10 dst-address=2a0f:1cc5:f0a::/47 gateway=ether1 routing-table=noncn
-/ipv6/route/add distance=10 dst-address=2a0f:1cc5:f08::/48 gateway=ether1 routing-table=noncn
 /ipv6/route/add distance=10 dst-address=2a0f:1cc5:f07::/48 gateway=ether1 routing-table=noncn
 /ipv6/route/add distance=10 dst-address=2a0f:1cc5:400::/39 gateway=ether1 routing-table=noncn
 /ipv6/route/add distance=10 dst-address=2a0f:1cc5:700::/40 gateway=ether1 routing-table=noncn
