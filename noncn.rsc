@@ -15988,11 +15988,11 @@
 /ipv6/route/add distance=10 dst-address=2a0f:6284:4cc0::/44 gateway=ether1 routing-table=noncn
 /ipv6/route/add distance=10 dst-address=2a0f:6284:4cb0::/44 gateway=ether1 routing-table=noncn
 /ipv6/route/add distance=10 dst-address=2a0f:6284:4c70::/44 gateway=ether1 routing-table=noncn
+/ipv6/route/add distance=10 dst-address=2a0f:6284:4c00::/43 gateway=ether1 routing-table=noncn
 /ipv6/route/add distance=10 dst-address=2a0f:6284:4c38::/45 gateway=ether1 routing-table=noncn
 /ipv6/route/add distance=10 dst-address=2a0f:6284:4c34::/46 gateway=ether1 routing-table=noncn
 /ipv6/route/add distance=10 dst-address=2a0f:6284:4c32::/47 gateway=ether1 routing-table=noncn
 /ipv6/route/add distance=10 dst-address=2a0f:6284:4c31::/48 gateway=ether1 routing-table=noncn
-/ipv6/route/add distance=10 dst-address=2a0f:6284:4c10::/44 gateway=ether1 routing-table=noncn
 /ipv6/route/add distance=10 dst-address=2a0f:3000::/20 gateway=ether1 routing-table=noncn
 /ipv6/route/add distance=10 dst-address=2a0f:2800::/21 gateway=ether1 routing-table=noncn
 /ipv6/route/add distance=10 dst-address=2a0f:2000::/22 gateway=ether1 routing-table=noncn
@@ -16137,10 +16137,6 @@
 /ipv6/route/add distance=10 dst-address=2a0f:1cc5:40::/42 gateway=ether1 routing-table=noncn
 /ipv6/route/add distance=10 dst-address=2a0f:1cc5:20::/43 gateway=ether1 routing-table=noncn
 /ipv6/route/add distance=10 dst-address=2a0f:1cc5::/44 gateway=ether1 routing-table=noncn
-/ipv6/route/add distance=10 dst-address=2a0f:1cc5:18::/46 gateway=ether1 routing-table=noncn
-/ipv6/route/add distance=10 dst-address=2a0f:1cc5:1c::/47 gateway=ether1 routing-table=noncn
-/ipv6/route/add distance=10 dst-address=2a0f:1cc5:1e::/48 gateway=ether1 routing-table=noncn
-/ipv6/route/add distance=10 dst-address=2a0f:1cc5:10::/46 gateway=ether1 routing-table=noncn
 /ipv6/route/add distance=10 dst-address=2a0e::/17 gateway=ether1 routing-table=noncn
 /ipv6/route/add distance=10 dst-address=2a0e:c000::/18 gateway=ether1 routing-table=noncn
 /ipv6/route/add distance=10 dst-address=2a0e:8000::/19 gateway=ether1 routing-table=noncn
