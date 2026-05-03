@@ -47,11 +47,14 @@ birdc configure
 make generate
 ```
 
-会生成：
+## 自动更新
 
-- `noncn4.routes`
-- `noncn6.routes`
-- `noncn.sha256`
+```sh
+curl -L -o /usr/local/sbin/cron.sh \
+  https://raw.githubusercontent.com/newcoderlife/chnroutes/master/cron.example.sh
+chmod +x /usr/local/sbin/cron.sh
+(crontab -l 2>/dev/null; echo '17 * * * * /usr/local/sbin/cron.sh') | crontab -
+```
 
 ## 数据来源
 
