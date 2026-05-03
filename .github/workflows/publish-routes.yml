@@ -1,6 +1,9 @@
-name: Update Routes
+name: Publish Routes
 
 on:
+  push:
+    branches:
+      - master
   schedule:
     - cron: "0 1 * * *"
   workflow_dispatch:
@@ -12,7 +15,7 @@ permissions:
   artifact-metadata: write
 
 concurrency:
-  group: update-routes
+  group: publish-routes
   cancel-in-progress: false
 
 jobs:

@@ -6,14 +6,14 @@ from ipaddress import IPv4Network, IPv6Network, collapse_addresses, ip_network
 from pathlib import Path
 
 
-DEFAULT_IPV4_SPACE = "dependency/ipv4-address-space.csv"
-DEFAULT_APNIC = "dependency/delegated-apnic-latest"
+DEFAULT_IPV4_SPACE = "ipv4-address-space.csv"
+DEFAULT_APNIC = "delegated-apnic-latest"
 DEFAULT_CHN_LISTS = [
-    "dependency/china_ip_list.txt",
-    "dependency/china.txt",
-    "dependency/chnroutes.txt",
-    "dependency/china6.txt",
-    "dependency/chnroute_v6.txt",
+    "china_ip_list.txt",
+    "china.txt",
+    "chnroutes.txt",
+    "china6.txt",
+    "chnroute_v6.txt",
 ]
 
 
@@ -107,7 +107,7 @@ def parse_args():
     )
     parser.add_argument(
         "--dependency-dir",
-        default=".",
+        default="dependency",
         help="base directory for dependency files",
     )
     parser.add_argument(

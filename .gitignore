@@ -245,3 +245,6 @@ pyrightconfig.json
 # Generated release assets
 /noncn.rsc
 /noncn.rsc.sha256
+
+# Downloaded upstream dependency snapshots
+/dependency/
