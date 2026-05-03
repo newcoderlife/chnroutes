@@ -243,8 +243,15 @@ pyrightconfig.json
 # End of https://www.toptal.com/developers/gitignore/api/python,visualstudiocode,macos,linux
 
 # Generated release assets
-/noncn.rsc
-/noncn.rsc.sha256
+/noncn4.routes
+/noncn6.routes
+/noncn.sha256
+
+# Legacy generated assets
+/noncn.routes
+/noncn.bird.conf
+/noncn.iproute.sh
+/noncn.frr.conf
 
 # Downloaded upstream dependency snapshots
 /dependency/

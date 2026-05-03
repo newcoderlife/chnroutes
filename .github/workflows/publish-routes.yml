@@ -27,7 +27,9 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Generate routes
-        run: make generate EXCLUDE="${{ secrets.EXCLUDE }}" NEXT="${{ secrets.NEXT }}" NEXT6="${{ secrets.NEXT6 }}"
+        run: >-
+          make generate
+          EXCLUDE="${{ secrets.EXCLUDE }}"
 
       - name: Generate checksum
         run: make checksum
@@ -36,22 +38,24 @@ jobs:
         uses: actions/attest@v4
         with:
           subject-path: |
-            noncn.rsc
-            noncn.rsc.sha256
+            noncn4.routes
+            noncn6.routes
+            noncn.sha256
 
       - name: Publish latest release asset
         uses: softprops/action-gh-release@v3
         with:
           tag_name: latest
           target_commitish: ${{ github.sha }}
-          name: Latest routes
+          name: latest
           body: |
-            Generated RouterOS route script for non-China IPv4/IPv6 destinations.
+            Generated BIRD 3 route assets for non-China IPv4/IPv6 destinations.
 
             Stable download URL:
-            https://github.com/${{ github.repository }}/releases/latest/download/noncn.rsc
+            https://github.com/${{ github.repository }}/releases/latest/download/noncn4.routes
           files: |
-            noncn.rsc
-            noncn.rsc.sha256
+            noncn4.routes
+            noncn6.routes
+            noncn.sha256
           overwrite_files: true
           make_latest: true

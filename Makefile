@@ -1,17 +1,10 @@
 EXCLUDE ?=
-NEXT ?= ether1
-NEXT6 ?=
-ROUTE_TABLE ?= noncn
-ROUTE_COMMENT ?= chnroutes
-OUTPUT ?= noncn.rsc
+OUTPUT_PREFIX ?= noncn
 DEPENDENCY_DIR ?=
+OUTPUTS := $(OUTPUT_PREFIX)4.routes $(OUTPUT_PREFIX)6.routes
+CHECKSUM := $(OUTPUT_PREFIX).sha256
 
-NEXT_ARG := $(if $(strip $(NEXT)),$(NEXT),ether1)
-GEN_ARGS := --next "$(NEXT_ARG)" --table "$(ROUTE_TABLE)" --comment "$(ROUTE_COMMENT)" --output "$(OUTPUT)"
-
-ifneq ($(strip $(NEXT6)),)
-GEN_ARGS += --next6 "$(NEXT6)"
-endif
+GEN_ARGS := --output-prefix "$(OUTPUT_PREFIX)"
 
 ifneq ($(strip $(EXCLUDE)),)
 GEN_ARGS += --exclude $(EXCLUDE)
@@ -55,4 +48,4 @@ generate-local:
 
 .PHONY: checksum
 checksum:
-	shasum -a 256 "$(OUTPUT)" > "$(OUTPUT).sha256"
+	shasum -a 256 $(OUTPUTS) > "$(CHECKSUM)"
