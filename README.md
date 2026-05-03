@@ -55,9 +55,9 @@ make generate
 
 ## 数据来源
 
-- IANA IPv4 Address Space Registry
-- APNIC delegated stats
-- 17mon/china_ip_list
-- gaoyifan/china-operator-ip
-- misakaio/chnroutes2
-- mayaxcn/china-ip-list
+- [IANA IPv4 Address Space Registry](https://www.iana.org/assignments/ipv4-address-space/ipv4-address-space.csv)
+- [APNIC delegated stats](https://ftp.apnic.net/stats/apnic/delegated-apnic-latest)
+- [17mon/china_ip_list](https://github.com/17mon/china_ip_list)
+- [gaoyifan/china-operator-ip](https://github.com/gaoyifan/china-operator-ip)
+- [misakaio/chnroutes2](https://github.com/misakaio/chnroutes2)
+- [mayaxcn/china-ip-list](https://github.com/mayaxcn/china-ip-list)
