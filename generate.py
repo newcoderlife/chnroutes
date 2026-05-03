@@ -2,106 +2,19 @@
 
 import argparse
 import csv
-import math
-from ipaddress import IPv4Network, IPv6Network, ip_network
-
-parser = argparse.ArgumentParser(
-    description="Generate non-China IPv4/IPv6 routes for RouterOS."
-)
-parser.add_argument(
-    "--exclude",
-    metavar="CIDR",
-    type=str,
-    nargs="*",
-    help="Extra IPv4/IPv6 CIDR prefixes to keep local (excluded from output)",
-)
-parser.add_argument(
-    "--next",
-    default="%ether1",
-    metavar="INTERFACE OR IP",
-    help="next hop for non-China IPv4/IPv6; typically your tunnel interface or gateway",
-)
-parser.add_argument(
-    "--next6",
-    default=None,
-    metavar="INTERFACE OR IP",
-    help="next hop for non-China IPv6; overrides --next when set",
-)
-parser.add_argument(
-    "--chn_list",
-    default=[
-        "dependency/china_ip_list.txt",
-        "dependency/china.txt",
-        "dependency/chnroutes.txt",
-        "dependency/china6.txt",
-        "dependency/chnroute_v6.txt",
-    ],
-    nargs="*",
-    help="China IP lists (IPv4/IPv6). Each line is a CIDR. Blank lines are ignored. Multiple files supported.",
-)
-args = parser.parse_args()
+from ipaddress import IPv4Network, IPv6Network, collapse_addresses, ip_network
+from pathlib import Path
 
 
-class Node:
-    def __init__(self, cidr, parent=None):
-        self.cidr = cidr
-        self.child = []
-        self.dead = False
-        self.parent = parent
-
-    def __repr__(self):
-        return "<Node %s>" % self.cidr
-
-
-def dump_tree(lst, ident=0):
-    for n in lst:
-        print("+" * ident + str(n))
-        dump_tree(n.child, ident + 1)
-
-
-def dump_rsc(lst, f):
-    f.write(
-        ':foreach routeId in=[/ip/route/find where routing-table="noncn"] do={\n/ip/route/remove ($routeId)\n}\n'
-    )
-
-    dump_rds_inner(lst, f)
-
-
-def dump_rds_inner(lst, f):
-    for n in lst:
-        if n.dead:
-            continue
-
-        if len(n.child) > 0:
-            dump_rds_inner(n.child, f)
-        elif not n.dead:
-            f.write(
-                "/ip/route/add distance=10 dst-address=%s gateway=%s routing-table=noncn\n"
-                % (n.cidr, args.next)
-            )
-
-
-def dump_rsc6(lst, f):
-    f.write(
-        ':foreach routeId in=[/ipv6/route/find where routing-table="noncn"] do={\n/ipv6/route/remove ($routeId)\n}\n'
-    )
-
-    dump_rds6_inner(lst, f)
-
-
-def dump_rds6_inner(lst, f):
-    for n in lst:
-        if n.dead:
-            continue
-
-        if len(n.child) > 0:
-            dump_rds6_inner(n.child, f)
-        elif not n.dead:
-            nh = args.next6 if args.next6 is not None else args.next
-            f.write(
-                "/ipv6/route/add distance=10 dst-address=%s gateway=%s routing-table=noncn\n"
-                % (n.cidr, nh)
-            )
+DEFAULT_IPV4_SPACE = "dependency/ipv4-address-space.csv"
+DEFAULT_APNIC = "dependency/delegated-apnic-latest"
+DEFAULT_CHN_LISTS = [
+    "dependency/china_ip_list.txt",
+    "dependency/china.txt",
+    "dependency/chnroutes.txt",
+    "dependency/china6.txt",
+    "dependency/chnroute_v6.txt",
+]
 
 
 RESERVED = [
@@ -117,13 +30,12 @@ RESERVED = [
     IPv4Network("198.18.0.0/15"),
     IPv4Network("198.51.100.0/24"),
     IPv4Network("203.0.113.0/24"),
+    IPv4Network("224.0.0.0/4"),
     IPv4Network("240.0.0.0/4"),
     IPv4Network("255.255.255.255/32"),
-    IPv4Network("169.254.0.0/16"),
-    IPv4Network("127.0.0.0/8"),
-    IPv4Network("224.0.0.0/4"),
     IPv4Network("100.64.0.0/10"),
 ]
+
 
 RESERVED6 = [
     IPv6Network("::/128"),
@@ -135,107 +47,330 @@ RESERVED6 = [
     IPv6Network("2001:2::/48"),
     IPv6Network("2001:10::/28"),
     IPv6Network("2001:20::/28"),
-    IPv6Network("2001:0::/32"),  # Teredo
-    IPv6Network("2002::/16"),  # 6to4
+    IPv6Network("2001:0::/32"),
+    IPv6Network("2002::/16"),
     IPv6Network("fc00::/7"),
     IPv6Network("fe80::/10"),
     IPv6Network("ff00::/8"),
 ]
 
 
-def subtract_cidr(sub_from, sub_by):
-    for cidr_to_sub in sub_by:
-        for n in sub_from:
-            if n.cidr == cidr_to_sub:
-                n.dead = True
-                break
+class Node:
+    def __init__(self, cidr, parent=None):
+        self.cidr = cidr
+        self.child = []
+        self.dead = False
+        self.parent = parent
 
-            if n.cidr.supernet_of(cidr_to_sub):
-                if len(n.child) > 0:
-                    subtract_cidr(n.child, sub_by)
-
-                else:
-                    n.child = [Node(b, n) for b in n.cidr.address_exclude(cidr_to_sub)]
-
-                break
+    def __repr__(self):
+        return f"<Node {self.cidr}>"
 
 
-root = []
+def parse_args():
+    parser = argparse.ArgumentParser(
+        description="Generate non-China IPv4/IPv6 routes for RouterOS."
+    )
+    parser.add_argument(
+        "--exclude",
+        metavar="CIDR",
+        type=str,
+        nargs="*",
+        default=[],
+        help="extra IPv4/IPv6 CIDR prefixes to keep local",
+    )
+    parser.add_argument(
+        "--next",
+        default="ether1",
+        metavar="INTERFACE OR IP",
+        help="next hop for non-China IPv4/IPv6",
+    )
+    parser.add_argument(
+        "--next6",
+        default=None,
+        metavar="INTERFACE OR IP",
+        help="next hop for non-China IPv6; overrides --next when set",
+    )
+    parser.add_argument(
+        "--table",
+        default="noncn",
+        help="RouterOS routing table to write routes into",
+    )
+    parser.add_argument(
+        "--comment",
+        default="chnroutes",
+        help="RouterOS route comment used to identify generated routes",
+    )
+    parser.add_argument(
+        "--output",
+        default="noncn.rsc",
+        help="RouterOS script output path",
+    )
+    parser.add_argument(
+        "--dependency-dir",
+        default=".",
+        help="base directory for dependency files",
+    )
+    parser.add_argument(
+        "--ipv4-space",
+        default=DEFAULT_IPV4_SPACE,
+        help="IANA IPv4 address space CSV",
+    )
+    parser.add_argument(
+        "--apnic",
+        default=DEFAULT_APNIC,
+        help="APNIC delegated stats file",
+    )
+    parser.add_argument(
+        "--chn-list",
+        default=DEFAULT_CHN_LISTS,
+        nargs="*",
+        help="China IP lists. Each non-comment line must be a CIDR.",
+    )
+    parser.add_argument(
+        "--validate-only",
+        action="store_true",
+        help="parse and validate dependency data without writing output",
+    )
+    return parser.parse_args()
 
-# IPv6 universe root (define before use)
-root6 = [Node(IPv6Network("2000::/3"))]
 
-with open("dependency/ipv4-address-space.csv", newline="") as f:
-    f.readline()  # skip the title
+def validate_args(args):
+    args.next = args.next.strip()
+    args.table = args.table.strip()
+    args.comment = args.comment.strip()
+    if args.next6 is not None:
+        args.next6 = args.next6.strip()
+        if not args.next6:
+            args.next6 = None
 
-    reader = csv.reader(f, quoting=csv.QUOTE_MINIMAL)
-    for cidr in reader:
-        if cidr[5] == "ALLOCATED" or cidr[5] == "LEGACY":
-            block = cidr[0]
-            cidr = "%s.0.0.0%s" % (
-                block[:3].lstrip("0"),
-                block[-2:],
-            )
-            root.append(Node(IPv4Network(cidr)))
-
-with open("dependency/delegated-apnic-latest") as f:
-    for line in f:
-        if "apnic|CN|ipv4|" in line:
-            line = line.split("|")
-            a = "%s/%d" % (
-                line[3],
-                32 - math.log(int(line[4]), 2),
-            )
-            a = IPv4Network(a)
-            subtract_cidr(root, (a,))
-        elif "apnic|CN|ipv6|" in line:
-            line = line.split("|")
-            # For IPv6 in delegated files, value is prefix length
-            a6 = f"{line[3]}/{int(line[4])}"
-            a6 = IPv6Network(a6)
-            subtract_cidr(root6, (a6,))
+    if not args.next:
+        raise ValueError("--next must not be empty")
+    if not args.table:
+        raise ValueError("--table must not be empty")
+    if not args.comment:
+        raise ValueError("--comment must not be empty")
 
 
-all_lists = []
-if args.chn_list:
-    all_lists.extend(args.chn_list)
+def resolve_dependency(path, dependency_dir):
+    path = Path(path)
+    if path.is_absolute():
+        return path
 
-# de-duplicate while preserving order
-seen = set()
-dedup_lists = []
-for p in all_lists:
-    if p not in seen:
-        dedup_lists.append(p)
-        seen.add(p)
+    base = Path(dependency_dir)
+    if base == Path("."):
+        return path
 
-for path in dedup_lists:
-    with open(path, "r") as f:
-        for line in f:
-            s = line.strip()
-            if s == "" or s.startswith("#"):
+    if path.parts and path.parts[0] == "dependency":
+        return base.joinpath(*path.parts[1:])
+    return base / path
+
+
+def routeros_quote(value):
+    value = str(value)
+    return '"' + value.replace("\\", "\\\\").replace('"', '\\"') + '"'
+
+
+def prefix_from_count(count):
+    if count <= 0 or count & (count - 1):
+        raise ValueError(f"IPv4 allocation size must be a power of two: {count}")
+    return 32 - (count.bit_length() - 1)
+
+
+def load_ipv4_roots(path):
+    roots = []
+    with open(path, newline="") as f:
+        reader = csv.reader(f, quoting=csv.QUOTE_MINIMAL)
+        next(reader, None)
+        for row_num, row in enumerate(reader, start=2):
+            if len(row) < 6:
+                raise ValueError(f"{path}:{row_num}: expected at least 6 columns")
+
+            status = row[5].strip().upper()
+            if status not in {"ALLOCATED", "LEGACY"}:
                 continue
 
-            net = ip_network(s, strict=True)
-            if isinstance(net, IPv4Network):
-                subtract_cidr(root, (net,))
+            prefix = row[0].strip()
+            block, prefix_len = prefix.split("/", 1)
+            cidr = f"{int(block)}.0.0.0/{int(prefix_len)}"
+            roots.append(Node(IPv4Network(cidr)))
+    return roots
+
+
+def load_apnic_cn(path):
+    v4 = []
+    v6 = []
+    with open(path) as f:
+        for line_num, line in enumerate(f, start=1):
+            line = line.strip()
+            if not line or line.startswith("#"):
+                continue
+
+            parts = line.split("|")
+            if len(parts) < 7:
+                continue
+            registry, country, resource_type = parts[:3]
+            if registry != "apnic" or country != "CN":
+                continue
+
+            if resource_type == "ipv4":
+                prefix = prefix_from_count(int(parts[4]))
+                v4.append(IPv4Network(f"{parts[3]}/{prefix}"))
+            elif resource_type == "ipv6":
+                v6.append(IPv6Network(f"{parts[3]}/{int(parts[4])}"))
+    return v4, v6
+
+
+def read_cidr_file(path):
+    networks = []
+    with open(path) as f:
+        for line_num, line in enumerate(f, start=1):
+            cidr = line.split("#", 1)[0].strip()
+            if not cidr:
+                continue
+            try:
+                networks.append(ip_network(cidr, strict=True))
+            except ValueError as exc:
+                raise ValueError(f"{path}:{line_num}: invalid CIDR {cidr}: {exc}")
+    return networks
+
+
+def dedupe_paths(paths):
+    seen = set()
+    result = []
+    for path in paths:
+        if path not in seen:
+            result.append(path)
+            seen.add(path)
+    return result
+
+
+def subtract_network(nodes, cidr_to_sub):
+    changed = False
+    for node in nodes:
+        if node.dead or node.cidr.version != cidr_to_sub.version:
+            continue
+
+        if node.cidr == cidr_to_sub or cidr_to_sub.supernet_of(node.cidr):
+            node.dead = True
+            changed = True
+            continue
+
+        if node.cidr.supernet_of(cidr_to_sub):
+            if node.child:
+                return subtract_network(node.child, cidr_to_sub)
+
+            node.child = [Node(cidr, node) for cidr in node.cidr.address_exclude(cidr_to_sub)]
+            return True
+    return changed
+
+
+def collect_live_networks(nodes):
+    for node in nodes:
+        if node.dead:
+            continue
+        if node.child:
+            yield from collect_live_networks(node.child)
+        else:
+            yield node.cidr
+
+
+def build_routes(args):
+    dependency_dir = args.dependency_dir
+    ipv4_space = resolve_dependency(args.ipv4_space, dependency_dir)
+    apnic = resolve_dependency(args.apnic, dependency_dir)
+    chn_lists = [resolve_dependency(path, dependency_dir) for path in args.chn_list]
+
+    roots_v4 = load_ipv4_roots(ipv4_space)
+    roots_v6 = [Node(IPv6Network("2000::/3"))]
+
+    exclude_v4, exclude_v6 = load_apnic_cn(apnic)
+
+    for path in dedupe_paths(chn_lists):
+        for network in read_cidr_file(path):
+            if isinstance(network, IPv4Network):
+                exclude_v4.append(network)
             else:
-                subtract_cidr(root6, (net,))
+                exclude_v6.append(network)
 
-extra_excludes = []
-if args.exclude:
-    extra_excludes.extend(args.exclude)
+    for raw in args.exclude:
+        network = ip_network(raw, strict=True)
+        if isinstance(network, IPv4Network):
+            exclude_v4.append(network)
+        else:
+            exclude_v6.append(network)
 
-for e in extra_excludes:
-    net = ip_network(e, strict=True)
-    if isinstance(net, IPv4Network):
-        RESERVED.append(net)
-    else:
-        RESERVED6.append(net)
+    exclude_v4.extend(RESERVED)
+    exclude_v6.extend(RESERVED6)
 
-subtract_cidr(root, RESERVED)
+    for network in collapse_addresses(exclude_v4):
+        subtract_network(roots_v4, network)
+    for network in collapse_addresses(exclude_v6):
+        subtract_network(roots_v6, network)
 
-subtract_cidr(root6, RESERVED6)
+    routes_v4 = list(collapse_addresses(collect_live_networks(roots_v4)))
+    routes_v6 = list(collapse_addresses(collect_live_networks(roots_v6)))
+    return routes_v4, routes_v6
 
-with open("noncn.rsc", "w") as f:
-    dump_rsc(root, f)
-    dump_rsc6(root6, f)
+
+def write_cleanup(f, route_path, table, comment):
+    table_q = routeros_quote(table)
+    comment_q = routeros_quote(comment)
+    tagged_find = f"/{route_path}/find where routing-table={table_q} comment={comment_q}"
+    all_find = f"/{route_path}/find where routing-table={table_q}"
+
+    f.write(f":if ([:len [{tagged_find}]] = 0) do={{\n")
+    f.write(f":foreach routeId in=[{all_find}] do={{\n")
+    f.write(f"/{route_path}/remove ($routeId)\n")
+    f.write("}\n")
+    f.write("} else={\n")
+    f.write(f":foreach routeId in=[{tagged_find}] do={{\n")
+    f.write(f"/{route_path}/remove ($routeId)\n")
+    f.write("}\n")
+    f.write("}\n")
+
+
+def write_routes(f, route_path, routes, gateway, table, comment):
+    table_q = routeros_quote(table)
+    comment_q = routeros_quote(comment)
+    for route in routes:
+        f.write(
+            f"/{route_path}/add distance=10 dst-address={route} "
+            f"gateway={gateway} routing-table={table_q} comment={comment_q}\n"
+        )
+
+
+def write_rsc(path, routes_v4, routes_v6, args):
+    next6 = args.next6 if args.next6 is not None else args.next
+    table_q = routeros_quote(args.table)
+
+    with open(path, "w") as f:
+        f.write("# Generated by chnroutes. Do not edit manually.\n")
+        f.write(f":if ([:len [/routing/table/find where name={table_q}]] = 0) do={{\n")
+        f.write(f"/routing/table/add name={table_q} fib\n")
+        f.write("}\n")
+        write_cleanup(f, "ip/route", args.table, args.comment)
+        write_routes(f, "ip/route", routes_v4, args.next, args.table, args.comment)
+        write_cleanup(f, "ipv6/route", args.table, args.comment)
+        write_routes(f, "ipv6/route", routes_v6, next6, args.table, args.comment)
+
+
+def main():
+    args = parse_args()
+    try:
+        validate_args(args)
+    except ValueError as exc:
+        raise SystemExit(str(exc)) from exc
+    routes_v4, routes_v6 = build_routes(args)
+
+    if args.validate_only:
+        print(
+            f"Validated dependencies: {len(routes_v4)} IPv4 routes, "
+            f"{len(routes_v6)} IPv6 routes."
+        )
+        return
+
+    write_rsc(args.output, routes_v4, routes_v6, args)
+
+
+if __name__ == "__main__":
+    main()

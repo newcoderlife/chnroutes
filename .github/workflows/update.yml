@@ -2,34 +2,53 @@ name: Update Routes
 
 on:
   schedule:
-    - cron: '0 1 * * *'
-  push:
-    branches:
-      - master
+    - cron: "0 1 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  id-token: write
+  attestations: write
+  artifact-metadata: write
+
+concurrency:
+  group: update-routes
+  cancel-in-progress: false
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-    - name: Set up Git
-      run: |
-        git config --global user.name "newco"
-        git config --global user.email "newcoderlife@gmail.com"
+      - name: Generate routes
+        run: make generate EXCLUDE="${{ secrets.EXCLUDE }}" NEXT="${{ secrets.NEXT }}" NEXT6="${{ secrets.NEXT6 }}"
 
-    - name: Run Makefile
-      run: make generate EXCLUDE="${{ secrets.EXCLUDE }}" NEXT="${{ secrets.NEXT }}"
+      - name: Generate checksum
+        run: make checksum
 
-    - name: Commit changes
-      run: |
-        DATE=$(date +'%Y%m%d')
-        git add .
-        git commit -m "chore: Update routes $DATE"
-    
-    - name: Push changes
-      run: git push
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Attest release assets
+        uses: actions/attest@v4
+        with:
+          subject-path: |
+            noncn.rsc
+            noncn.rsc.sha256
+
+      - name: Publish latest release asset
+        uses: softprops/action-gh-release@v3
+        with:
+          tag_name: latest
+          target_commitish: ${{ github.sha }}
+          name: Latest routes
+          body: |
+            Generated RouterOS route script for non-China IPv4/IPv6 destinations.
+
+            Stable download URL:
+            https://github.com/${{ github.repository }}/releases/latest/download/noncn.rsc
+          files: |
+            noncn.rsc
+            noncn.rsc.sha256
+          overwrite_files: true
+          make_latest: true
