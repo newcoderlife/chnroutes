@@ -34,6 +34,10 @@ jobs:
       - name: Generate checksum
         run: make checksum
 
+      - name: Set release date
+        id: release_date
+        run: echo "date=$(TZ=Asia/Hong_Kong date +'%Y-%m-%d')" >> "$GITHUB_OUTPUT"
+
       - name: Attest release assets
         uses: actions/attest@v4
         with:
@@ -47,12 +51,14 @@ jobs:
         with:
           tag_name: latest
           target_commitish: ${{ github.sha }}
-          name: latest
+          name: ${{ steps.release_date.outputs.date }}
           body: |
             Generated BIRD 3 route assets for non-China IPv4/IPv6 destinations.
 
-            Stable download URL:
+            Stable download URLs:
             https://github.com/${{ github.repository }}/releases/latest/download/noncn4.routes
+            https://github.com/${{ github.repository }}/releases/latest/download/noncn6.routes
+            https://github.com/${{ github.repository }}/releases/latest/download/noncn.sha256
           files: |
             noncn4.routes
             noncn6.routes
